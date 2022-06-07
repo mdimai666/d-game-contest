@@ -33,16 +33,26 @@ class GameDino {
         $w = GameDino::Dir();
         $rel = $this->getDWRelUrl();
         $index = $w.'index.html';
+        $html=[];
 
         if(!file_exists($index)) return "<h3>[файл $game не найден]</h3>";
 
-        $html = file_get_contents($index);
 
-        $js = $rel.'scripts.js';
-        $js = "<script src=\"$js$v\"></script>";
 
-        $html = "$js".$html;
-        $html = "<script src=\"$rel../gameclass.js$v\"></script>".$html;
+        $jss = ['../gameclass.js', 'scripts.js', 'game.js'];
+        foreach ($jss as $a) {
+            $js = "<script src=\"$rel$a$v\"></script>";
+            # code...
+            $html[] = "$js";
+        }
+
+        $html[] = file_get_contents($index);
+
+
+        // $html[] = "<script src=\"$rel../gameclass.js$v\"></script>";
+
+
+        $html = implode('', $html);
 
         return $html;
     }

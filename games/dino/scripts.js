@@ -25,6 +25,14 @@ function initGameDino($) {
         }
     }
 
-    window.game = new GameDino();
+    let game = new GameDino();
     game.init();
+
+    if (navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
+        new DuRunner('.interstitial-wrapper', null, game);
+      } else {
+        document.getElementById("main-frame-notchrome").style.display="";
+      }
+
+    //   <button class="btn btn-primary test-save">test save</button>
 }
