@@ -593,11 +593,16 @@ function hideClass(name) {
             // Reset the time clock.
             this.time = getTimeStamp();
 
-            // console.log("dddd", )
+            // console.log("gameOver" )
 
             let n_score = this.distanceMeter.getActualDistance(this.distanceRan);
-
+            
             this.dinosvc.save_result(n_score);
+
+            setInterval(()=>{
+                jQuery(document).trigger('dgc_game_gameover');
+            },1000)
+
         },
         stop: function () {
             this.activated = false;

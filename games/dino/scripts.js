@@ -7,7 +7,7 @@ function initGameDino($) {
         }
 
         init() {
-            $('#gamedino').click(()=>this.savetest())
+            // $('#gamedino').click(()=>this.savetest())
         }
 
         async savetest() {
@@ -15,7 +15,7 @@ function initGameDino($) {
 
             // debugger;
 
-            await this.save_result(Math.random() * 1000 + 99|0)
+            // await this.save_result(Math.random() * 1000 + 99|0)
             // await this.save_result(1234)
 
         }
