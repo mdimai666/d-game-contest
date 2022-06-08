@@ -32,6 +32,16 @@ function d_game_contest_init() {
         0
     );
 
+    add_submenu_page(
+        'edit.php?post_type=dgamescore',
+        __( 'Shortcodes'),
+        __( 'Shortcodes'),
+        'd_game_contest_page_cap',// 'manage_options',
+        'd_game_contest__shortcodes',
+        'd_game_contest_shortcodes_render',
+        
+    );
+
 }
 
 function d_game_contest_render() {
@@ -114,6 +124,33 @@ function d_game_contest_render() {
 
     <?php
 }
+
+
+function d_game_contest_shortcodes_render() {
+    if ( !current_user_can( 'd_game_contest_page_cap' ) )  {
+        wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+    }
+
+    ?>
+
+    <h2 class="title">Shortcodes</h2>
+    <hr>
+
+    <p>Фрейм игры</p>
+    <code>
+        [gamecontest game=dino]
+    </code>
+
+    <p></p>
+    <p>Таблица рейтинга</p>
+
+    <code>
+        [gamecontest_table game=dino] 
+    </code>
+
+    <?php
+}
+
 
 
 /////////////////////////
