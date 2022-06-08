@@ -13,6 +13,7 @@ require_once 'game_contest_admin.php';
 require_once 'shortcodes.php';
 require_once 'rest_saveresult.php';
 require_once 'games/dino/GameDino.php';
+require_once 'dgs_block_top_table.php';
 
 
 $scripts_version = '0.5.0'; //for cache update
@@ -23,12 +24,23 @@ $scripts_version = '0.5.0'; //for cache update
 // add_action('wp_enqueue_scripts', array(&$this, 'dgame_contest_enqueue_scripts'));
 // for back end
 // add_action('admin_enqueue_scripts', array(&$this, 'dgame_contest_enqueue_scripts'));
-add_action('admin_enqueue_scripts', 'dgame_contest_enqueue_scripts');
+add_action('admin_enqueue_scripts', 'dgame_contest_enqueue_admin_scripts');
 
-function dgame_contest_enqueue_scripts() {
+function dgame_contest_enqueue_admin_scripts() {
     if ( 1 ) {
         wp_register_script('dparser_adminscripts', plugins_url('/front/adminscripts.js',__FILE__),'', $scripts_version,true);
         wp_enqueue_script('dparser_adminscripts');
+
+    }
+}
+
+
+add_action('wp_enqueue_scripts', 'dgame_contest_enqueue_scripts');
+
+function dgame_contest_enqueue_scripts() {
+    if ( 1 ) {
+        wp_register_script('dgc_app_hooks', plugins_url('/front/app_hooks.js',__FILE__),'', $scripts_version,true);
+        wp_enqueue_script('dgc_app_hooks');
 
     }
 }
@@ -57,7 +69,7 @@ function d_game_contest__activate(){
 }
 //--------------------------------------------------------------------
 
-// http://wordpress.localhost:81/wp-json/dkk/v1/status
+// http://wordpress.localhost:81/wp-json/dgc/v1/status
 add_action( 'rest_api_init', function () {
     // register_rest_route( 'dsearch/v1', '/posts/(?P<id>\d+)', array(
     //   'methods' => 'GET',
@@ -66,6 +78,10 @@ add_action( 'rest_api_init', function () {
     register_rest_route( 'dgc/v1', '/status/', array(
       'methods' => ['GET'],
       'callback' => 'd_game_contest__ajax_status',
+    ));
+    register_rest_route( 'dgc/v1', '/top_table/', array(
+      'methods' => ['GET'],
+      'callback' => 'd_game_contest__ajax__top_table',
     ));
 });
 
@@ -84,6 +100,24 @@ endif;
 
 
 
+//--------------------------------------------------------------------
+function d_game_contest__ajax__top_table(){
+
+    $game = $_GET['game'];
+
+    // ob_start();
+
+    // wp_send_json($response);
+    // wp_send_json($response);
+    header('Content-Type: text/html');
+
+    echo do_shortcode("[gamecontest_table game=$game]");
+
+    // echo 123;
+
+    // return ob_get_clean();
+
+}
 //--------------------------------------------------------------------
 
 if ( ! function_exists( '__dump' ) ) {

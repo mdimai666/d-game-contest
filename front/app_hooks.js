@@ -1,20 +1,21 @@
 jQuery(function(){
     let $ = jQuery;
 
-    // $('#root').on('click', 'a.releases-item', function(e){
-    //     e.preventDefault();
 
-    //     let domain = $('#root').data('domain');
+    $(document).on('click', '.dgc-front-top_table__refresh_btn', async function(e){
+        e.preventDefault();
 
-    //     let h = $(this).attr('href');
+        let main = $(this).parents('.dgc-front-top_table');
+        let game = main.data('game');
 
-    //     let url = new URL(h, domain).href;
+        let res = await $.get(`/wp-json/dgc/v1/top_table?game=${game}`)
 
-    //     console.log('>>h', url);
+        let dd = $(res);
 
-    //     window.open(url);
+        main.html(dd.html());
 
-    //     return false;
-    // })
+
+        return false;
+    })
 
 })

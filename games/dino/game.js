@@ -497,6 +497,11 @@ function hideClass(name) {
         * @param {Event} e
         */
         onKeyDown: function (e) {
+            if(DuRunner.keycodes.JUMP[String(e.keyCode)] //@mdi
+                && (e.target == document.body || e.target.tagName == "CANVAS") ){
+                e.preventDefault();
+            }
+
             if (e.target != this.detailsButton) {
                 if (!this.crashed && (DuRunner.keycodes.JUMP[String(e.keyCode)] ||
                     e.type == DuRunner.events.TOUCHSTART)) {

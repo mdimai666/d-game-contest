@@ -56,4 +56,64 @@ class GameDino {
 
         return $html;
     }
+
+    public function GetTop(){
+
+        $games = ['dino'];
+
+        $tops = [];
+
+        foreach ($games as $game_key) {
+
+            $args = array(
+                'posts_per_page' => 10,
+                'paged' => get_query_var('paged') ? get_query_var('paged') : 1,
+                'post_type' => 'dgamescore',
+        
+                'orderby'			=> 'meta_value_num',
+                'meta_key'			=> 'e_score',
+                // 'meta_value'			=> 1,
+                // 'order'				=> 'DESC',
+                'order'				=> 'DESC',
+                // 'orderby' => array( 'head_doctor__order_by' => 'ASC' ),
+                // 'orderby' => array( 'head_doctor__order_by' => 'DESC' ),
+                // 'orderby' => array( 'post_title__order_by' => 'ASC' ),
+                // 'orderby' => array( 'post_title__order_by' => 'DESC' ),
+
+                'meta_query' => [
+                    'relation' => 'AND',
+                    [
+                        'key'     => 'e_game',
+                        'value'   => $game_key,
+                        'compare' => '='
+                    ],
+                ]
+        
+            );
+
+            $query = new WP_Query($args);
+
+            $tops[$game_key] = [
+                'game' => $game_key,
+                'posts' => $query->posts,
+            ];
+
+        }
+
+        return $tops;
+        
+    }
+
+    public function TopTable(){
+
+        $top = $this->GetTop();
+
+        ob_start();
+        do_action('dgs_block_top_table', [
+            'posts' => $top['dino']['posts'],
+            'game' => 'dino',
+        ] );
+        return ob_get_clean();
+
+    }
 }

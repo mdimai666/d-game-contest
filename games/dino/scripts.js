@@ -3,7 +3,7 @@ function initGameDino($) {
     class GameDino extends DGameBase {
         constructor() {
             super();
-            console.log('GameDino', this)
+            // console.log('GameDino', this)
         }
 
         init() {
